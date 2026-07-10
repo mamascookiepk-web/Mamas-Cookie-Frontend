@@ -1,0 +1,70 @@
+/*
+  Mama's Cookie design tokens.
+  Single source of truth for color — components should always reach for
+  these tokens (e.g. bg-primary-500, text-ink-900) instead of raw hex values.
+  Mirrored in JS at src/constants/theme.js for non-Tailwind usage.
+*/
+@theme {
+  /* Brand red — logo script, CTAs, active states */
+  --color-primary-50: #fef2f2;
+  --color-primary-100: #fde2e2;
+  --color-primary-200: #fac5c4;
+  --color-primary-300: #f4989a;
+  --color-primary-400: #ea6465;
+  --color-primary-500: #e2231a;
+  --color-primary-600: #c81e17;
+  --color-primary-700: #a11813;
+  --color-primary-800: #7a120f;
+  --color-primary-900: #530c0a;
+
+  /* Ink — headings, body copy, footer background */
+  --color-ink-50: #f7f7f8;
+  --color-ink-100: #ededef;
+  --color-ink-200: #d6d6da;
+  --color-ink-300: #b0b0b8;
+  --color-ink-400: #7c7c88;
+  --color-ink-500: #54545f;
+  --color-ink-600: #3a3a42;
+  --color-ink-700: #26262c;
+  --color-ink-800: #18181c;
+  --color-ink-900: #0b0b0d;
+
+  /* Neutral gray — borders, inputs, disabled states */
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+
+  /* Surfaces */
+  --color-surface: #ffffff;
+  --color-surface-muted: #fafafa;
+  --color-surface-footer: #0b0b0d;
+
+  /* Semantic status — order lifecycle, form feedback */
+  --color-success: #16a34a;
+  --color-warning: #d97706;
+  --color-danger: #e2231a;
+  --color-info: #2563eb;
+
+  /* Typography */
+  --font-sans: "Segoe UI", system-ui, Roboto, sans-serif;
+  --font-heading: "Poppins", "Segoe UI", system-ui, sans-serif;
+
+  /* Motion */
+  --animate-marquee: marquee 22s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
