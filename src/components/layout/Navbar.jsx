@@ -7,6 +7,7 @@ import LoginModal from '@/components/common/location/LoginModal';
 import AnnouncementBar from './AnnouncementBar';
 
 const NAV_LINKS = [
+  { to: '/', label: 'Home' },
   { to: '/local', label: 'Local' },
   { to: '/our-story', label: 'Our Story' },
   { to: '/gifting', label: 'Corporate Gifting' },

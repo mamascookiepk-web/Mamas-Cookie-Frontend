@@ -4,6 +4,7 @@ import Footer from './Footer';
 import LocalNavbar from '@/pages/Local/LocalNavbar';
 import CartDrawer from '@/components/common/CartDrawer';
 import CartMiniBar from '@/components/common/CartMiniBar';
+import ScrollToTop from '@/components/common/ScrollToTop';
 
 export default function Layout() {
   const { pathname } = useLocation();
@@ -11,6 +12,7 @@ export default function Layout() {
 
   return (
     <div className="flex min-h-screen flex-col bg-cream">
+      <ScrollToTop />
       {isLocalPage ? <LocalNavbar /> : <Navbar />}
       <main className="flex-1">
         <Outlet />

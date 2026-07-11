@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Play, Volume2, VolumeX } from 'lucide-react';
+import { useAutoplayInView } from '@/hooks/useAutoplayInView';
 
 export default function StoryHero() {
   const [muted, setMuted] = useState(true);
+  const videoRef = useAutoplayInView();
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-primary-900 via-primary-700 to-primary-600 text-white">
@@ -54,8 +56,8 @@ export default function StoryHero() {
           <div className="mx-auto w-full max-w-xs">
             <div className="relative aspect-[9/16] overflow-hidden rounded-[2rem] border border-white/20 bg-white/5 shadow-2xl backdrop-blur-sm">
               <video
+                ref={videoRef}
                 src="/videos/story/story-hero.mp4"
-                autoPlay
                 loop
                 muted={muted}
                 playsInline
