@@ -10,7 +10,7 @@ const DUMMY_TESTIMONIALS = [
     avatarInitials: 'S',
     rating: 5,
     quote:
-      "Ordered Crumble's corporate gift boxes for New Year's absolute **GAME CHANGER!** Their team was fast, efficient, and **delivered cookie perfection**. Our clients are still raving about them! If you want corporate gifts that impress, Crumble Cookies is the way to go!",
+      "Ordered Mama's Cookie's corporate gift boxes for New Year's absolute **GAME CHANGER!** Their team was fast, efficient, and **delivered cookie perfection**. Our clients are still raving about them! If you want corporate gifts that impress, Mama's Cookie is the way to go!",
   },
   {
     name: 'Fatima Khan',
@@ -18,7 +18,7 @@ const DUMMY_TESTIMONIALS = [
     avatarInitials: 'FK',
     rating: 5,
     quote:
-      "**Crumble nailed it** for our team's milestone celebration. Their coordination was smooth, delivery was right on schedule, and the cookies were out of this world. It's rare to find a gifting partner this dependable and delicious!",
+      "**Mama's Cookie nailed it** for our team's milestone celebration. Their coordination was smooth, delivery was right on schedule, and the cookies were out of this world. It's rare to find a gifting partner this dependable and delicious!",
   },
   {
     name: 'Bilal Shaik',
@@ -26,7 +26,7 @@ const DUMMY_TESTIMONIALS = [
     avatarInitials: 'BS',
     rating: 5,
     quote:
-      "We needed gifts for our clients and gave Crumble a try—best decision ever! Our clients loved them! If you're looking for delicious, memorable gifts for employees or clients, Crumble cookies are the best.",
+      "We needed gifts for our clients and gave Mama's Cookie a try—best decision ever! Our clients loved them! If you're looking for delicious, memorable gifts for employees or clients, Mama's Cookie is the best.",
   },
   {
     name: 'Ayesha Raza',
@@ -34,7 +34,7 @@ const DUMMY_TESTIMONIALS = [
     avatarInitials: 'AR',
     rating: 5,
     quote:
-      "Our onboarding kits felt so much warmer with Crumble's cookie boxes inside. **New hires loved the personal touch**, and the packaging looked premium enough for any corporate event.",
+      "Our onboarding kits felt so much warmer with Mama's Cookie's cookie boxes inside. **New hires loved the personal touch**, and the packaging looked premium enough for any corporate event.",
   },
   {
     name: 'Omar Farooq',

@@ -5,24 +5,19 @@ import Spinner from '@/components/ui/Spinner';
 import ProductQuickViewModal from '@/components/common/ProductQuickViewModal';
 import ProductCard from '@/components/common/ProductCard';
 
-const DUMMY_PRODUCTS = [
-  { id: 1, name: 'ChocoChee', price: 350, description: '', imageUrl: null },
-  { id: 2, name: 'Hazelnut', price: 300, description: '', imageUrl: null },
-  { id: 3, name: 'Classic', price: 300, description: '', imageUrl: null },
-];
-
 export default function BestSellers() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
     getProducts({ size: 4 })
       .then((data) => {
         const content = data.content ?? data;
-        setProducts(content.length > 0 ? content : DUMMY_PRODUCTS);
+        setProducts(content);
       })
-      .catch(() => setProducts(DUMMY_PRODUCTS))
+      .catch((err) => setError(err.message || 'Unable to load products right now.'))
       .finally(() => setLoading(false));
   }, []);
 
@@ -39,6 +34,8 @@ export default function BestSellers() {
         <div className="flex justify-center py-12">
           <Spinner />
         </div>
+      ) : error ? (
+        <p className="text-primary-600">{error}</p>
       ) : products.length === 0 ? (
         <p className="text-ink-500">No products available yet.</p>
       ) : (
