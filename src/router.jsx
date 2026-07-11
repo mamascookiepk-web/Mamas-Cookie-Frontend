@@ -16,6 +16,7 @@ import AdminProducts from '@/pages/Admin/AdminProducts';
 import AdminLocations from '@/pages/Admin/AdminLocations';
 import AdminOrders from '@/pages/Admin/AdminOrders';
 import AdminGifting from '@/pages/Admin/AdminGifting';
+import AdminTestimonials from '@/pages/Admin/AdminTestimonials';
 import AdminCatering from '@/pages/Admin/AdminCatering';
 import AdminMonthlyDrop from '@/pages/Admin/AdminMonthlyDrop';
 import AdminWeeklyDrop from '@/pages/Admin/AdminWeeklyDrop';
@@ -48,6 +49,7 @@ const router = createBrowserRouter([
       { path: 'locations', element: <AdminLocations /> },
       { path: 'orders', element: <AdminOrders /> },
       { path: 'gifting', element: <AdminGifting /> },
+      { path: 'gifting-testimonials', element: <AdminTestimonials /> },
       { path: 'catering', element: <AdminCatering /> },
       { path: 'monthly-drop', element: <AdminMonthlyDrop /> },
       { path: 'weekly-drop', element: <AdminWeeklyDrop /> },

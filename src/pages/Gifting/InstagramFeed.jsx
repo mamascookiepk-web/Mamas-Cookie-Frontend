@@ -1,7 +1,7 @@
-import { Image } from 'lucide-react';
+import { Camera } from 'lucide-react';
 
 const INSTAGRAM_URL = 'https://www.instagram.com/mamascookie';
-const PLACEHOLDER_COUNT = 12;
+const IMAGES = Array.from({ length: 12 }, (_, i) => `/images/instagram/img-${i + 1}.jpg`);
 
 export default function InstagramFeed() {
   return (
@@ -11,19 +11,25 @@ export default function InstagramFeed() {
       </h2>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6">
-        {Array.from({ length: PLACEHOLDER_COUNT }).map((_, index) => (
+        {IMAGES.map((src, index) => (
           <a
-            key={index}
+            key={src}
             href={INSTAGRAM_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex aspect-square items-center justify-center bg-gray-100 transition-colors hover:bg-primary-50"
+            className="group relative aspect-square overflow-hidden bg-gray-100"
           >
-            <Image
-              size={28}
-              strokeWidth={1.5}
-              className="text-gray-300 transition-colors group-hover:text-primary-400"
+            <img
+              src={src}
+              alt={`Mama's Cookie on Instagram ${index + 1}`}
+              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
             />
+            <div className="absolute inset-0 flex items-center justify-center bg-ink-900/0 transition-colors group-hover:bg-ink-900/40">
+              <Camera
+                size={22}
+                className="text-white opacity-0 transition-opacity group-hover:opacity-100"
+              />
+            </div>
           </a>
         ))}
       </div>

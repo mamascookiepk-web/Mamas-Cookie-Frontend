@@ -62,6 +62,13 @@ export const API_ROUTES = {
     ADMIN_DETAIL: (id) => `/admin/catering/${id}`,
     ADMIN_STATUS: (id) => `/admin/catering/${id}/status`,
   },
+  TESTIMONIALS: {
+    CREATE: '/gifting-testimonials',
+    LIST: '/gifting-testimonials',
+    ADMIN_LIST: '/admin/gifting-testimonials',
+    ADMIN_DETAIL: (id) => `/admin/gifting-testimonials/${id}`,
+    ADMIN_STATUS: (id) => `/admin/gifting-testimonials/${id}/status`,
+  },
   MONTHLY_DROP: {
     GET: '/monthly-drop',
     ADMIN_IMAGE: '/admin/monthly-drop/image',

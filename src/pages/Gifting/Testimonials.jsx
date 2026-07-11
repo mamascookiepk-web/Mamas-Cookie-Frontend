@@ -1,60 +1,40 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import TestimonialCard from '@/components/common/TestimonialCard';
-
-// TODO: replace with testimonials fetched from the backend once that endpoint exists.
-const DUMMY_TESTIMONIALS = [
-  {
-    name: 'Shazya',
-    role: 'Key Recruiter, Dignos',
-    avatarInitials: 'S',
-    rating: 5,
-    quote:
-      "Ordered Mama's Cookie's corporate gift boxes for New Year's absolute **GAME CHANGER!** Their team was fast, efficient, and **delivered cookie perfection**. Our clients are still raving about them! If you want corporate gifts that impress, Mama's Cookie is the way to go!",
-  },
-  {
-    name: 'Fatima Khan',
-    role: 'Marketing Manager, Hive Solutions',
-    avatarInitials: 'FK',
-    rating: 5,
-    quote:
-      "**Mama's Cookie nailed it** for our team's milestone celebration. Their coordination was smooth, delivery was right on schedule, and the cookies were out of this world. It's rare to find a gifting partner this dependable and delicious!",
-  },
-  {
-    name: 'Bilal Shaik',
-    role: 'Marketing Manager',
-    avatarInitials: 'BS',
-    rating: 5,
-    quote:
-      "We needed gifts for our clients and gave Mama's Cookie a try—best decision ever! Our clients loved them! If you're looking for delicious, memorable gifts for employees or clients, Mama's Cookie is the best.",
-  },
-  {
-    name: 'Ayesha Raza',
-    role: 'HR Lead, Nexlify',
-    avatarInitials: 'AR',
-    rating: 5,
-    quote:
-      "Our onboarding kits felt so much warmer with Mama's Cookie's cookie boxes inside. **New hires loved the personal touch**, and the packaging looked premium enough for any corporate event.",
-  },
-  {
-    name: 'Omar Farooq',
-    role: 'Founder, Loopstack',
-    avatarInitials: 'OF',
-    rating: 5,
-    quote:
-      "We've reordered three times now for client appreciation gifts. **Consistent quality, reliable delivery**, and every recipient asks where the cookies are from!",
-  },
-];
+import { useTestimonials } from '@/hooks/useTestimonials';
 
 const CARD_WIDTH = 420;
 const CARD_GAP = 24;
 
+const initials = (name) =>
+  name
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0].toUpperCase())
+    .join('');
+
 export default function Testimonials() {
   const scrollRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const { items, status, fetchTestimonials } = useTestimonials();
+
+  useEffect(() => {
+    fetchTestimonials();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const testimonials = items.map((t) => ({
+    id: t.id,
+    name: t.name,
+    role: `${t.position}, ${t.companyName}`,
+    avatarInitials: initials(t.name),
+    rating: t.rating,
+    quote: t.reviewText,
+  }));
 
   const scrollToIndex = (index) => {
-    const clamped = Math.max(0, Math.min(index, DUMMY_TESTIMONIALS.length - 1));
+    const clamped = Math.max(0, Math.min(index, testimonials.length - 1));
     scrollRef.current?.scrollTo({ left: clamped * (CARD_WIDTH + CARD_GAP), behavior: 'smooth' });
     setActiveIndex(clamped);
   };
@@ -62,8 +42,12 @@ export default function Testimonials() {
   const handleScroll = () => {
     if (!scrollRef.current) return;
     const index = Math.round(scrollRef.current.scrollLeft / (CARD_WIDTH + CARD_GAP));
-    setActiveIndex(Math.max(0, Math.min(index, DUMMY_TESTIMONIALS.length - 1)));
+    setActiveIndex(Math.max(0, Math.min(index, testimonials.length - 1)));
   };
+
+  if (status !== 'loading' && testimonials.length === 0) {
+    return null;
+  }
 
   return (
     <section className="bg-gradient-to-br from-primary-900 to-primary-700 py-14">
@@ -86,49 +70,59 @@ export default function Testimonials() {
             impression.
           </p>
 
-          <div className="hidden shrink-0 items-center gap-3 sm:flex">
-            <button
-              type="button"
-              aria-label="Previous testimonial"
-              onClick={() => scrollToIndex(activeIndex - 1)}
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/40 text-white transition-colors hover:bg-white/10"
-            >
-              <ChevronLeft size={18} />
-            </button>
-            <button
-              type="button"
-              aria-label="Next testimonial"
-              onClick={() => scrollToIndex(activeIndex + 1)}
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/40 text-white transition-colors hover:bg-white/10"
-            >
-              <ChevronRight size={18} />
-            </button>
-          </div>
+          {testimonials.length > 1 && (
+            <div className="hidden shrink-0 items-center gap-3 sm:flex">
+              <button
+                type="button"
+                aria-label="Previous testimonial"
+                onClick={() => scrollToIndex(activeIndex - 1)}
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/40 text-white transition-colors hover:bg-white/10"
+              >
+                <ChevronLeft size={18} />
+              </button>
+              <button
+                type="button"
+                aria-label="Next testimonial"
+                onClick={() => scrollToIndex(activeIndex + 1)}
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/40 text-white transition-colors hover:bg-white/10"
+              >
+                <ChevronRight size={18} />
+              </button>
+            </div>
+          )}
         </div>
 
-        <div
-          ref={scrollRef}
-          onScroll={handleScroll}
-          className="mt-10 flex gap-6 overflow-x-auto scroll-smooth pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-        >
-          {DUMMY_TESTIMONIALS.map((testimonial) => (
-            <TestimonialCard key={testimonial.name} testimonial={testimonial} />
-          ))}
-        </div>
+        {status === 'loading' ? (
+          <p className="mt-10 text-sm text-primary-100">Loading reviews...</p>
+        ) : (
+          <>
+            <div
+              ref={scrollRef}
+              onScroll={handleScroll}
+              className="mt-10 flex gap-6 overflow-x-auto scroll-smooth pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            >
+              {testimonials.map((testimonial) => (
+                <TestimonialCard key={testimonial.id} testimonial={testimonial} />
+              ))}
+            </div>
 
-        <div className="mt-6 flex items-center gap-2">
-          {DUMMY_TESTIMONIALS.map((testimonial, index) => (
-            <button
-              key={testimonial.name}
-              type="button"
-              aria-label={`Go to testimonial ${index + 1}`}
-              onClick={() => scrollToIndex(index)}
-              className={`h-2 rounded-full transition-all ${
-                index === activeIndex ? 'w-8 bg-white' : 'w-2 bg-white/40'
-              }`}
-            />
-          ))}
-        </div>
+            {testimonials.length > 1 && (
+              <div className="mt-6 flex items-center gap-2">
+                {testimonials.map((testimonial, index) => (
+                  <button
+                    key={testimonial.id}
+                    type="button"
+                    aria-label={`Go to testimonial ${index + 1}`}
+                    onClick={() => scrollToIndex(index)}
+                    className={`h-2 rounded-full transition-all ${
+                      index === activeIndex ? 'w-8 bg-white' : 'w-2 bg-white/40'
+                    }`}
+                  />
+                ))}
+              </div>
+            )}
+          </>
+        )}
       </div>
     </section>
   );

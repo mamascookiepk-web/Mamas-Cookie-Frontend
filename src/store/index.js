@@ -13,6 +13,7 @@ import giftingReducer from './giftingSlice';
 import cateringReducer from './cateringSlice';
 import monthlyDropReducer from './monthlyDropSlice';
 import weeklyDropReducer from './weeklyDropSlice';
+import testimonialsReducer from './testimonialsSlice';
 
 export const store = configureStore({
   reducer: {
@@ -30,5 +31,6 @@ export const store = configureStore({
     catering: cateringReducer,
     monthlyDrop: monthlyDropReducer,
     weeklyDrop: weeklyDropReducer,
+    testimonials: testimonialsReducer,
   },
 });
