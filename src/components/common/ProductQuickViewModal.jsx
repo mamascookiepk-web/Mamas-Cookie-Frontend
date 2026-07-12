@@ -1,16 +1,44 @@
 import { useEffect, useRef, useState } from 'react';
-import { ChevronLeft, ChevronRight, Cookie as CookieIcon, Minus, Plus, X } from 'lucide-react';
-import { formatCurrency } from '@/utils/format';
+import {
+  ChevronLeft,
+  ChevronRight,
+  Cookie as CookieIcon,
+  Minus,
+  Plus,
+  Star,
+  X,
+} from 'lucide-react';
+import { formatCurrency, formatDate } from '@/utils/format';
 import { useCart } from '@/hooks/useCart';
+import { useProducts } from '@/hooks/useProducts';
+import { useAuth } from '@/hooks/useAuth';
+import LoginModal from '@/components/common/location/LoginModal';
 
 const AUTO_ROTATE_MS = 3000;
 
 export default function ProductQuickViewModal({ product, onClose }) {
   const { addItem } = useCart();
+  const { isAuthenticated } = useAuth();
+  const {
+    reviews,
+    reviewsStatus,
+    reviewSubmitStatus,
+    reviewSubmitError,
+    fetchProductReviews,
+    fetchProductById,
+    addProductReview,
+    clearCurrentProduct,
+    clearReviewSubmitStatus,
+  } = useProducts();
   const [quantity, setQuantity] = useState(1);
   const [instructions, setInstructions] = useState('');
   const [activeImage, setActiveImage] = useState(0);
   const [selectedVariant, setSelectedVariant] = useState(null);
+  const [showReviewForm, setShowReviewForm] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [reviewRating, setReviewRating] = useState(0);
+  const [hoverRating, setHoverRating] = useState(0);
+  const [reviewComment, setReviewComment] = useState('');
   const intervalRef = useRef(null);
 
   const images =
@@ -36,6 +64,12 @@ export default function ProductQuickViewModal({ product, onClose }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [images.length]);
 
+  useEffect(() => {
+    fetchProductReviews(product.id);
+    return () => clearCurrentProduct();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product.id]);
+
   const goToImage = (index) => {
     setActiveImage((index + images.length) % images.length);
     startTimer();
@@ -44,6 +78,30 @@ export default function ProductQuickViewModal({ product, onClose }) {
   const handleAddToCart = () => {
     addItem(product, quantity, instructions.trim(), selectedVariant);
     onClose();
+  };
+
+  const handleWriteReviewClick = () => {
+    if (!isAuthenticated) {
+      setLoginOpen(true);
+      return;
+    }
+    setShowReviewForm(true);
+  };
+
+  const handleReviewSubmit = async (e) => {
+    e.preventDefault();
+    if (reviewRating === 0) return;
+    const result = await addProductReview(product.id, {
+      rating: reviewRating,
+      comment: reviewComment.trim(),
+    });
+    if (result.meta.requestStatus === 'fulfilled') {
+      setReviewRating(0);
+      setReviewComment('');
+      setShowReviewForm(false);
+      clearReviewSubmitStatus();
+      fetchProductById(product.id);
+    }
   };
 
   return (
@@ -164,6 +222,107 @@ export default function ProductQuickViewModal({ product, onClose }) {
                 className="w-full resize-none rounded-b-lg px-4 py-3 text-sm text-ink-900 placeholder:text-ink-300 focus:outline-none"
               />
             </div>
+
+            <div className="mt-8 border-t border-gray-200 pt-6">
+              <div className="flex items-center justify-between">
+                <p className="text-sm font-bold text-ink-900">
+                  Reviews {product.reviewCount ? `(${product.reviewCount})` : ''}
+                </p>
+                {!showReviewForm && (
+                  <button
+                    type="button"
+                    onClick={handleWriteReviewClick}
+                    className="text-sm font-bold text-primary-600 hover:text-primary-700"
+                  >
+                    Write a Review
+                  </button>
+                )}
+              </div>
+
+              {showReviewForm && (
+                <form onSubmit={handleReviewSubmit} className="mt-4 rounded-lg border border-gray-200 p-4">
+                  <div className="flex gap-1" onMouseLeave={() => setHoverRating(0)}>
+                    {Array.from({ length: 5 }).map((_, i) => {
+                      const value = i + 1;
+                      const filled = (hoverRating || reviewRating) >= value;
+                      return (
+                        <button
+                          key={value}
+                          type="button"
+                          aria-label={`Rate ${value} out of 5`}
+                          onMouseEnter={() => setHoverRating(value)}
+                          onClick={() => setReviewRating(value)}
+                          className="p-0.5"
+                        >
+                          <Star
+                            size={22}
+                            className={filled ? 'fill-amber-400 text-amber-400' : 'text-gray-300'}
+                          />
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  <textarea
+                    rows={3}
+                    value={reviewComment}
+                    onChange={(e) => setReviewComment(e.target.value)}
+                    placeholder="Share your thoughts about this product..."
+                    className="mt-3 w-full resize-none rounded-lg border border-gray-200 px-4 py-3 text-sm text-ink-900 placeholder:text-ink-300 focus:border-primary-500 focus:outline-none"
+                  />
+
+                  {reviewSubmitError && (
+                    <p className="mt-2 text-sm text-primary-600">{reviewSubmitError}</p>
+                  )}
+
+                  <div className="mt-3 flex items-center gap-3">
+                    <button
+                      type="submit"
+                      disabled={reviewSubmitStatus === 'loading' || reviewRating === 0}
+                      className="rounded-lg bg-primary-500 px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-primary-600 disabled:opacity-50"
+                    >
+                      {reviewSubmitStatus === 'loading' ? 'Submitting...' : 'Submit Review'}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setShowReviewForm(false)}
+                      className="text-sm font-bold text-ink-500 hover:text-ink-700"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              )}
+
+              <div className="mt-4 space-y-4">
+                {reviewsStatus === 'loading' && (
+                  <p className="text-sm text-ink-400">Loading reviews...</p>
+                )}
+                {reviewsStatus === 'succeeded' && reviews.length === 0 && (
+                  <p className="text-sm text-ink-400">No reviews yet. Be the first to write one!</p>
+                )}
+                {reviews.map((review) => (
+                  <div key={review.id} className="border-b border-gray-100 pb-4 last:border-b-0">
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm font-bold text-ink-900">{review.customerName}</p>
+                      <span className="text-xs text-ink-400">{formatDate(review.createdAt)}</span>
+                    </div>
+                    <div className="mt-1 flex gap-0.5">
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <Star
+                          key={i}
+                          size={13}
+                          className={i < review.rating ? 'fill-amber-400 text-amber-400' : 'text-gray-300'}
+                        />
+                      ))}
+                    </div>
+                    {review.comment && (
+                      <p className="mt-1.5 text-sm text-ink-600">{review.comment}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
           <div className="flex items-center justify-between gap-4 border-t border-gray-200 p-6">
@@ -198,6 +357,8 @@ export default function ProductQuickViewModal({ product, onClose }) {
           </div>
         </div>
       </div>
+
+      {loginOpen && <LoginModal onClose={() => setLoginOpen(false)} />}
     </div>
   );
 }

@@ -1,25 +1,21 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getProducts } from '@/services/productService';
+import { useProducts } from '@/hooks/useProducts';
 import Spinner from '@/components/ui/Spinner';
 import ProductQuickViewModal from '@/components/common/ProductQuickViewModal';
 import ProductCard from '@/components/common/ProductCard';
 
 export default function BestSellers() {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const { items, status, error, fetchProducts } = useProducts();
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
-    getProducts({ size: 4 })
-      .then((data) => {
-        const content = data.content ?? data;
-        setProducts(content);
-      })
-      .catch((err) => setError(err.message || 'Unable to load products right now.'))
-      .finally(() => setLoading(false));
+    fetchProducts({ size: 4 });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const loading = status === 'loading' || status === 'idle';
+  const products = items.slice(0, 4);
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6">

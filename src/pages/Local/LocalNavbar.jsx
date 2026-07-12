@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import {
   ArrowLeft,
   ChevronDown,
+  Heart,
   LogOut,
   MapPin,
   Package,
@@ -116,6 +117,14 @@ export default function LocalNavbar() {
                     >
                       <Package size={16} className="text-ink-400" />
                       Track Orders
+                    </Link>
+                    <Link
+                      to="/wishlist"
+                      onClick={() => setAccountMenuOpen(false)}
+                      className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium text-ink-900 hover:bg-gray-50"
+                    >
+                      <Heart size={16} className="text-ink-400" />
+                      My Wishlist
                     </Link>
                     <button
                       type="button"

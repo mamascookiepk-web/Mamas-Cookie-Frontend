@@ -10,6 +10,7 @@ import {
   addProductReview,
   clearCurrentProduct,
   clearProductsError,
+  clearReviewSubmitStatus,
 } from '@/store/productsSlice';
 
 export const useProducts = () => {
@@ -25,6 +26,8 @@ export const useProducts = () => {
     reviews: state.reviews,
     reviewsPagination: state.reviewsPagination,
     reviewsStatus: state.reviewsStatus,
+    reviewSubmitStatus: state.reviewSubmitStatus,
+    reviewSubmitError: state.reviewSubmitError,
     mutationStatus: state.mutationStatus,
     error: state.error,
 
@@ -38,5 +41,6 @@ export const useProducts = () => {
     addProductReview: (id, payload) => dispatch(addProductReview({ id, payload })),
     clearCurrentProduct: () => dispatch(clearCurrentProduct()),
     clearProductsError: () => dispatch(clearProductsError()),
+    clearReviewSubmitStatus: () => dispatch(clearReviewSubmitStatus()),
   };
 };

@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { Search, User, ShoppingBag, Menu, X } from 'lucide-react';
+import { Search, User, ShoppingBag, Heart, Menu, X } from 'lucide-react';
 import { useCart } from '@/hooks/useCart';
 import { useAuth } from '@/hooks/useAuth';
+import { useWishlist } from '@/hooks/useWishlist';
 import LoginModal from '@/components/common/location/LoginModal';
 import AnnouncementBar from './AnnouncementBar';
 
@@ -67,6 +68,48 @@ function TrackOrderLink({ mobile, onNavigate }) {
   );
 }
 
+function WishlistLink() {
+  const { isAuthenticated } = useAuth();
+  const { productIds } = useWishlist();
+  const navigate = useNavigate();
+  const [loginOpen, setLoginOpen] = useState(false);
+
+  useEffect(() => {
+    if (loginOpen && isAuthenticated) {
+      setLoginOpen(false);
+      navigate('/wishlist');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated, loginOpen]);
+
+  const handleClick = () => {
+    if (isAuthenticated) {
+      navigate('/wishlist');
+    } else {
+      setLoginOpen(true);
+    }
+  };
+
+  return (
+    <>
+      <button
+        type="button"
+        onClick={handleClick}
+        aria-label="Wishlist"
+        className="relative text-ink-900 transition-colors hover:text-primary-600"
+      >
+        <Heart size={20} />
+        {isAuthenticated && productIds.length > 0 && (
+          <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-primary-500 text-[10px] font-semibold text-white">
+            {productIds.length}
+          </span>
+        )}
+      </button>
+      {loginOpen && <LoginModal onClose={() => setLoginOpen(false)} />}
+    </>
+  );
+}
+
 export default function Navbar() {
   const { count, openCart } = useCart();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -123,6 +166,7 @@ export default function Navbar() {
             >
               {searchOpen ? <X size={20} /> : <Search size={20} />}
             </button>
+            <WishlistLink />
             <Link
               to="/admin/login"
               aria-label="Admin login"

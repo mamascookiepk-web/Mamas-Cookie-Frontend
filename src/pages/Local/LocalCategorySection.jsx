@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Search } from 'lucide-react';
-import { getProducts } from '@/services/productService';
 import { useCategories } from '@/hooks/useCategories';
+import { useProducts } from '@/hooks/useProducts';
 import CategoryBlock from './CategoryBlock';
 import ProductQuickViewModal from '@/components/common/ProductQuickViewModal';
 
@@ -10,8 +10,8 @@ const slugify = (name) => name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
 
 export default function LocalCategorySection() {
   const { items: categories, fetchCategories } = useCategories();
+  const { items: products, fetchProducts } = useProducts();
   const [searchParams] = useSearchParams();
-  const [products, setProducts] = useState([]);
   const [activeId, setActiveId] = useState(null);
   const [query, setQuery] = useState(searchParams.get('q') ?? '');
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -19,9 +19,7 @@ export default function LocalCategorySection() {
 
   useEffect(() => {
     fetchCategories();
-    getProducts()
-      .then((data) => setProducts(data.content ?? data))
-      .catch(() => setProducts([]));
+    fetchProducts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

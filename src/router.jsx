@@ -9,6 +9,7 @@ import OurStory from '@/pages/OurStory/OurStory';
 import Local from '@/pages/Local/Local';
 import Profile from '@/pages/Profile/Profile';
 import TrackOrder from '@/pages/TrackOrder/TrackOrder';
+import Wishlist from '@/pages/Wishlist/Wishlist';
 import AdminLogin from '@/pages/AdminLogin/AdminLogin';
 import AdminLayout from '@/pages/Admin/AdminLayout';
 import AdminDashboard from '@/pages/Admin/AdminDashboard';
@@ -36,6 +37,7 @@ const router = createBrowserRouter([
       { path: 'local', element: <Local /> },
       { path: 'profile', element: <Profile /> },
       { path: 'track-order', element: <TrackOrder /> },
+      { path: 'wishlist', element: <Wishlist /> },
       { path: '*', element: <NotFound /> },
     ],
   },

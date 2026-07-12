@@ -1,13 +1,27 @@
+import { useState } from 'react';
 import { Cookie as CookieIcon, Heart, Star } from 'lucide-react';
 import { formatCurrency } from '@/utils/format';
 import { useCart } from '@/hooks/useCart';
 import { useWishlist } from '@/hooks/useWishlist';
+import { useAuth } from '@/hooks/useAuth';
+import LoginModal from '@/components/common/location/LoginModal';
 
 export default function ProductCard({ product, onSelect }) {
   const { addItem } = useCart();
   const { isWishlisted, toggle } = useWishlist();
+  const { isAuthenticated } = useAuth();
+  const [loginOpen, setLoginOpen] = useState(false);
   const wishlisted = isWishlisted(product.id);
   const rating = Math.round(product.averageRating ?? 0);
+
+  const handleWishlistClick = (e) => {
+    e.stopPropagation();
+    if (!isAuthenticated) {
+      setLoginOpen(true);
+      return;
+    }
+    toggle(product.id);
+  };
 
   return (
     <div
@@ -24,10 +38,7 @@ export default function ProductCard({ product, onSelect }) {
         <button
           type="button"
           aria-label="Toggle wishlist"
-          onClick={(e) => {
-            e.stopPropagation();
-            toggle(product.id);
-          }}
+          onClick={handleWishlistClick}
           className="absolute right-3 top-3 flex h-7 w-7 items-center justify-center rounded-full bg-white/90 text-ink-500 shadow transition-colors hover:text-primary-600"
         >
           <Heart size={14} className={wishlisted ? 'fill-primary-500 text-primary-500' : ''} />
@@ -72,6 +83,12 @@ export default function ProductCard({ product, onSelect }) {
           </button>
         </div>
       </div>
+
+      {loginOpen && (
+        <div onClick={(e) => e.stopPropagation()}>
+          <LoginModal onClose={() => setLoginOpen(false)} />
+        </div>
+      )}
     </div>
   );
 }

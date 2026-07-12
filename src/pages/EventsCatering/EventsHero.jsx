@@ -1,4 +1,4 @@
-import { ChevronDown, PartyPopper } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 
 const TAGS = ['Birthdays', 'Weddings', 'Corporate Events', 'Custom Orders'];
 
@@ -10,11 +10,12 @@ export default function EventsHero() {
   return (
     <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:py-16">
       <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
-        <div className="flex aspect-[4/3] items-center justify-center rounded-2xl bg-primary-50 shadow-lg sm:aspect-[16/11]">
-          <div className="flex flex-col items-center gap-2 text-primary-400">
-            <PartyPopper size={56} strokeWidth={1.5} />
-            <span className="text-sm font-medium">Image placeholder</span>
-          </div>
+        <div className="aspect-[4/3] overflow-hidden rounded-2xl shadow-lg sm:aspect-[16/11]">
+          <img
+            src="/images/events-and-catering-hero.jpg"
+            alt="Mama's Cookie events and catering spread"
+            className="h-full w-full object-cover"
+          />
         </div>
 
         <div>

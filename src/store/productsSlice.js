@@ -47,6 +47,8 @@ const initialState = {
   reviews: [],
   reviewsPagination: null,
   reviewsStatus: 'idle',
+  reviewSubmitStatus: 'idle',
+  reviewSubmitError: null,
   mutationStatus: 'idle',
   error: null,
 };
@@ -73,9 +75,15 @@ const productsSlice = createSlice({
       state.reviews = [];
       state.reviewsPagination = null;
       state.reviewsStatus = 'idle';
+      state.reviewSubmitStatus = 'idle';
+      state.reviewSubmitError = null;
     },
     clearProductsError: (state) => {
       state.error = null;
+    },
+    clearReviewSubmitStatus: (state) => {
+      state.reviewSubmitStatus = 'idle';
+      state.reviewSubmitError = null;
     },
   },
   extraReducers: (builder) => {
@@ -101,6 +109,7 @@ const productsSlice = createSlice({
       .addCase(fetchProductById.fulfilled, (state, action) => {
         state.detailStatus = 'succeeded';
         state.current = action.payload;
+        state.items = state.items.map((p) => (p.id === action.payload.id ? action.payload : p));
       })
       .addCase(fetchProductById.rejected, (state, action) => {
         state.detailStatus = 'failed';
@@ -174,11 +183,21 @@ const productsSlice = createSlice({
         state.error = action.error.message;
       })
 
+      .addCase(addProductReview.pending, (state) => {
+        state.reviewSubmitStatus = 'loading';
+        state.reviewSubmitError = null;
+      })
       .addCase(addProductReview.fulfilled, (state, action) => {
+        state.reviewSubmitStatus = 'succeeded';
         state.reviews.unshift(action.payload);
+      })
+      .addCase(addProductReview.rejected, (state, action) => {
+        state.reviewSubmitStatus = 'failed';
+        state.reviewSubmitError = action.error.message;
       });
   },
 });
 
-export const { clearCurrentProduct, clearProductsError } = productsSlice.actions;
+export const { clearCurrentProduct, clearProductsError, clearReviewSubmitStatus } =
+  productsSlice.actions;
 export default productsSlice.reducer;
