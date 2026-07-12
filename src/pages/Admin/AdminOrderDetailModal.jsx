@@ -79,11 +79,20 @@ export default function AdminOrderDetailModal({ order, onClose, onChangeStatus, 
 
           <div className="mt-5 divide-y divide-gray-100 rounded-lg border border-gray-100">
             {order.items?.map((item, i) => (
-              <div key={i} className="flex justify-between px-3 py-2 text-sm">
-                <span className="text-ink-600">
-                  {item.productName} &times; {item.quantity}
-                </span>
-                <span className="font-medium text-ink-900">{formatCurrency(item.subtotal)}</span>
+              <div key={i} className="px-3 py-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-ink-600">
+                    {item.productName}
+                    {item.variantLabel && (
+                      <span className="text-ink-400"> ({item.variantLabel})</span>
+                    )}
+                    {' '}&times; {item.quantity}
+                  </span>
+                  <span className="font-medium text-ink-900">{formatCurrency(item.subtotal)}</span>
+                </div>
+                {item.instructions && (
+                  <p className="mt-0.5 text-xs italic text-ink-400">Note: {item.instructions}</p>
+                )}
               </div>
             ))}
           </div>

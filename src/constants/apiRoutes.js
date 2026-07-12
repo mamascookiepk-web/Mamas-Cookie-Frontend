@@ -83,4 +83,7 @@ export const API_ROUTES = {
     ADMIN_IMAGE: '/admin/weekly-drop/image',
     ADMIN_DELETE: (id) => `/admin/weekly-drop/image/${id}`,
   },
+  DASHBOARD: {
+    ADMIN_STATS: '/admin/dashboard/stats',
+  },
 };

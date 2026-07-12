@@ -65,7 +65,12 @@ export default function Checkout() {
   const handlePlaceOrder = async () => {
     const payload = {
       orderType,
-      items: items.map((item) => ({ productId: item.productId, quantity: item.quantity })),
+      items: items.map((item) => ({
+        productId: item.productId,
+        variantId: item.variantId ?? undefined,
+        quantity: item.quantity,
+        instructions: item.instructions || undefined,
+      })),
       ...(orderType === 'DELIVERY' ? { addressId: address.id } : { pickupCenterId: pickupCenter.id }),
     };
     const result = await placeOrder(payload);
