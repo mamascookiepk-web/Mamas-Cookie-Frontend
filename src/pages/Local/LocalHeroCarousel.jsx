@@ -8,7 +8,7 @@ export default function LocalHeroCarousel() {
   const { items: images, status, fetchWeeklyDrop } = useWeeklyDrop();
   const [activeIndex, setActiveIndex] = useState(0);
   const intervalRef = useRef(null);
-
+  // this is the vaiable 
   useEffect(() => {
     fetchWeeklyDrop();
     // eslint-disable-next-line react-hooks/exhaustive-deps
