@@ -55,6 +55,7 @@
   /* Typography */
   --font-sans: "Segoe UI", system-ui, Roboto, sans-serif;
   --font-heading: "Poppins", "Segoe UI", system-ui, sans-serif;
+  --font-display: "Anton", "Segoe UI", system-ui, sans-serif;
 
   /* Motion */
   --animate-marquee: marquee 22s linear infinite;

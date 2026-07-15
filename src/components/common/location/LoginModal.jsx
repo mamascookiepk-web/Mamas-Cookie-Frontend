@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { X } from 'lucide-react';
 import { checkEmail, requestOtp, verifyOtp } from '@/services/authService';
 import { setCredentials } from '@/store/authSlice';
@@ -127,6 +128,15 @@ export default function LoginModal({ onClose }) {
             loading={loading}
             error={error}
           />
+        )}
+
+        {step === 'email' && (
+          <p className="mt-4 text-center text-xs text-ink-400">
+            Are you an admin?{' '}
+            <Link to="/admin/login" className="font-bold text-ink-500 hover:text-primary-600">
+              Log in here
+            </Link>
+          </p>
         )}
       </div>
     </div>

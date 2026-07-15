@@ -5,6 +5,7 @@ import { useCart } from '@/hooks/useCart';
 import { useAuth } from '@/hooks/useAuth';
 import { useWishlist } from '@/hooks/useWishlist';
 import LoginModal from '@/components/common/location/LoginModal';
+import BrandLogo from '@/components/common/BrandLogo';
 import AnnouncementBar from './AnnouncementBar';
 
 const NAV_LINKS = [
@@ -62,6 +63,41 @@ function TrackOrderLink({ mobile, onNavigate }) {
         }
       >
         Track Order
+      </button>
+      {loginOpen && <LoginModal onClose={() => setLoginOpen(false)} />}
+    </>
+  );
+}
+
+function AccountLink() {
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+  const [loginOpen, setLoginOpen] = useState(false);
+
+  useEffect(() => {
+    if (loginOpen && isAuthenticated) {
+      setLoginOpen(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated, loginOpen]);
+
+  const handleClick = () => {
+    if (isAuthenticated) {
+      navigate('/profile');
+    } else {
+      setLoginOpen(true);
+    }
+  };
+
+  return (
+    <>
+      <button
+        type="button"
+        onClick={handleClick}
+        aria-label="Account"
+        className="text-ink-900 transition-colors hover:text-primary-600"
+      >
+        <User size={20} />
       </button>
       {loginOpen && <LoginModal onClose={() => setLoginOpen(false)} />}
     </>
@@ -138,12 +174,8 @@ export default function Navbar() {
 
       <div className="border-b border-gray-200">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
-          <Link to="/" className="flex items-center gap-2 whitespace-nowrap">
-            <img src="/logo/Logo.svg" alt="Mama's Cookie" className="h-9 w-auto sm:h-10" />
-            <span className="flex items-baseline gap-1.5">
-              <span className="font-heading text-xl italic text-primary-500">mamas</span>
-              <span className="text-lg font-extrabold tracking-wide text-ink-900">COOKIE</span>
-            </span>
+          <Link to="/" aria-label="Mama's Cookie">
+            <BrandLogo />
           </Link>
 
           <nav className="hidden items-center gap-8 lg:flex">
@@ -167,13 +199,7 @@ export default function Navbar() {
               {searchOpen ? <X size={20} /> : <Search size={20} />}
             </button>
             <WishlistLink />
-            <Link
-              to="/admin/login"
-              aria-label="Admin login"
-              className="text-ink-900 transition-colors hover:text-primary-600"
-            >
-              <User size={20} />
-            </Link>
+            <AccountLink />
             <button
               type="button"
               onClick={openCart}
