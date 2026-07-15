@@ -10,7 +10,7 @@ export default function AdminLayout() {
   const { hasNew, markVisited } = useAdminNotificationDots();
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex h-screen overflow-hidden bg-gray-50">
       <ScrollToTop />
       <AdminSidebar open={sidebarOpen} onNavigate={() => setSidebarOpen(false)} hasNew={hasNew} />
 
@@ -21,9 +21,9 @@ export default function AdminLayout() {
         />
       )}
 
-      <div className="flex min-h-screen flex-1 flex-col">
+      <div className="flex h-screen flex-1 flex-col overflow-hidden">
         <AdminTopbar onMenuClick={() => setSidebarOpen((open) => !open)} />
-        <main className="flex-1 p-4 sm:p-6">
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6">
           <Outlet context={{ markVisited }} />
         </main>
       </div>

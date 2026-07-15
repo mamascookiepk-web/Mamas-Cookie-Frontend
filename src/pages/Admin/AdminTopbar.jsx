@@ -12,7 +12,7 @@ export default function AdminTopbar({ onMenuClick }) {
   };
 
   return (
-    <header className="flex h-16 items-center justify-between border-b border-gray-200 bg-white px-4 sm:px-6">
+    <header className="flex h-16 shrink-0 items-center justify-between border-b border-gray-200 bg-white px-4 sm:px-6">
       <button
         type="button"
         aria-label="Toggle sidebar"

@@ -26,11 +26,11 @@ const NAV_ITEMS = [
 export default function AdminSidebar({ open, onNavigate, hasNew = {} }) {
   return (
     <aside
-      className={`fixed inset-y-0 left-0 z-40 w-64 shrink-0 transform bg-primary-900 transition-transform lg:static lg:translate-x-0 ${
+      className={`fixed inset-y-0 left-0 z-40 flex w-64 shrink-0 transform flex-col overflow-y-auto bg-primary-900 transition-transform lg:static lg:translate-x-0 ${
         open ? 'translate-x-0' : '-translate-x-full'
       }`}
     >
-      <div className="flex h-16 items-center px-6">
+      <div className="flex h-16 shrink-0 items-center px-6">
         <span className="text-lg font-extrabold text-white">Mama&apos;s Cookie Admin</span>
       </div>
 
