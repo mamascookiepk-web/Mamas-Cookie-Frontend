@@ -1,5 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import { useGifting } from '@/hooks/useGifting';
+import { usePolling } from '@/hooks/usePolling';
 import { formatCurrency, formatDate } from '@/utils/format';
 import AdminPageHeader from './AdminPageHeader';
 import GiftingStatusBadge from './GiftingStatusBadge';
@@ -28,13 +30,24 @@ export default function AdminGifting() {
     clearAdminCurrentRequest,
   } = useGifting();
 
+  const { markVisited } = useOutletContext();
   const [statusFilter, setStatusFilter] = useState('');
   const [viewingId, setViewingId] = useState(null);
 
-  useEffect(() => {
+  const refetch = useCallback(() => {
     fetchAdminGiftingRequests(statusFilter ? { status: statusFilter } : undefined);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [statusFilter]);
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
+
+  usePolling(refetch, 15000);
+
+  useEffect(() => {
+    markVisited('gifting', adminRequests);
+  }, [adminRequests, markVisited]);
 
   const openRequest = (request) => {
     setViewingId(request.id);
@@ -74,7 +87,7 @@ export default function AdminGifting() {
       </div>
 
       <div className="mt-6 overflow-hidden rounded-xl border border-gray-200 bg-white">
-        {adminRequestsStatus === 'loading' && (
+        {adminRequestsStatus === 'loading' && adminRequests.length === 0 && (
           <p className="p-6 text-center text-ink-500">Loading inquiries...</p>
         )}
 

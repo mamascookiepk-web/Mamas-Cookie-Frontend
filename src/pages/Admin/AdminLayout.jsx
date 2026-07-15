@@ -3,14 +3,16 @@ import { Outlet } from 'react-router-dom';
 import AdminSidebar from './AdminSidebar';
 import AdminTopbar from './AdminTopbar';
 import ScrollToTop from '@/components/common/ScrollToTop';
+import { useAdminNotificationDots } from '@/hooks/useAdminNotificationDots';
 
 export default function AdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { hasNew, markVisited } = useAdminNotificationDots();
 
   return (
     <div className="flex min-h-screen bg-gray-50">
       <ScrollToTop />
-      <AdminSidebar open={sidebarOpen} onNavigate={() => setSidebarOpen(false)} />
+      <AdminSidebar open={sidebarOpen} onNavigate={() => setSidebarOpen(false)} hasNew={hasNew} />
 
       {sidebarOpen && (
         <div
@@ -22,7 +24,7 @@ export default function AdminLayout() {
       <div className="flex min-h-screen flex-1 flex-col">
         <AdminTopbar onMenuClick={() => setSidebarOpen((open) => !open)} />
         <main className="flex-1 p-4 sm:p-6">
-          <Outlet />
+          <Outlet context={{ markVisited }} />
         </main>
       </div>
     </div>

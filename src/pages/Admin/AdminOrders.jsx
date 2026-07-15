@@ -1,5 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import { useOrders } from '@/hooks/useOrders';
+import { usePolling } from '@/hooks/usePolling';
 import { formatCurrency, formatDate } from '@/utils/format';
 import StatusBadge from '@/components/common/OrderStatusBadge';
 import AdminPageHeader from './AdminPageHeader';
@@ -46,14 +48,25 @@ export default function AdminOrders() {
     clearAdminCurrentOrder,
   } = useOrders();
 
+  const { markVisited } = useOutletContext();
   const [statusFilter, setStatusFilter] = useState('');
   const [viewingId, setViewingId] = useState(null);
   const [seenIds, setSeenIds] = useState(loadSeenIds);
 
-  useEffect(() => {
+  const refetch = useCallback(() => {
     fetchAdminOrders(statusFilter ? { status: statusFilter } : undefined);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [statusFilter]);
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
+
+  usePolling(refetch, 15000);
+
+  useEffect(() => {
+    markVisited('orders', adminOrders);
+  }, [adminOrders, markVisited]);
 
   const openOrder = (order) => {
     setViewingId(order.id);
@@ -108,7 +121,7 @@ export default function AdminOrders() {
       </div>
 
       <div className="mt-6 overflow-hidden rounded-xl border border-gray-200 bg-white">
-        {adminOrdersStatus === 'loading' && (
+        {adminOrdersStatus === 'loading' && adminOrders.length === 0 && (
           <p className="p-6 text-center text-ink-500">Loading orders...</p>
         )}
 
