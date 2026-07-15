@@ -30,6 +30,7 @@ export default function LocalNavbar() {
   const handleLogout = () => {
     setAccountMenuOpen(false);
     logout();
+    navigate('/');
   };
 
   return (
