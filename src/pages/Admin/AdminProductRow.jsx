@@ -1,5 +1,6 @@
 import { Cookie as CookieIcon, Pencil, Trash2 } from 'lucide-react';
 import { formatCurrency } from '@/utils/format';
+import { cloudinaryThumbnail } from '@/utils/cloudinary';
 
 function firstThreeWords(text) {
   return text?.split(' ').slice(0, 3).join(' ') + '...';
@@ -13,7 +14,12 @@ export default function AdminProductRow({ product, onView, onEdit, onDelete }) {
     >
       <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-primary-50">
         {product.imageUrl ? (
-          <img src={product.imageUrl} alt={product.name} className="h-full w-full object-cover" />
+          <img
+            src={cloudinaryThumbnail(product.imageUrl, 112)}
+            alt={product.name}
+            loading="lazy"
+            className="h-full w-full object-cover"
+          />
         ) : (
           <CookieIcon size={22} strokeWidth={1.5} className="text-primary-300" />
         )}
