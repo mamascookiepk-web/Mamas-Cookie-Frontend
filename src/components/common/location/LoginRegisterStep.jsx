@@ -26,35 +26,6 @@ export default function LoginRegisterStep({ form, setForm, onSubmit, onBack, loa
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="mb-1.5 block text-sm font-medium text-ink-900">
-              Gender <span className="text-ink-300">(Optional)</span>
-            </label>
-            <select
-              value={form.gender}
-              onChange={handleChange('gender')}
-              className="w-full rounded-lg border border-gray-200 px-4 py-3 text-sm text-ink-900 focus:border-primary-500 focus:outline-none"
-            >
-              <option value="">Select</option>
-              <option value="MALE">Male</option>
-              <option value="FEMALE">Female</option>
-              <option value="OTHER">Other</option>
-            </select>
-          </div>
-          <div>
-            <label className="mb-1.5 block text-sm font-medium text-ink-900">
-              Date Of Birth <span className="text-ink-300">(Optional)</span>
-            </label>
-            <input
-              type="date"
-              value={form.dob}
-              onChange={handleChange('dob')}
-              className="w-full rounded-lg border border-gray-200 px-4 py-3 text-sm text-ink-900 focus:border-primary-500 focus:outline-none"
-            />
-          </div>
-        </div>
-
         <div>
           <label className="mb-1.5 block text-sm font-medium text-ink-900">Mobile Number</label>
           <div className="flex items-center rounded-lg border border-gray-200 focus-within:border-primary-500">

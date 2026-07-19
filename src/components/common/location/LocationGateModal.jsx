@@ -159,7 +159,7 @@ export default function LocationGateModal() {
                 <option value="">{loadingAreas ? 'Loading...' : 'Select your area'}</option>
                 {areas.map((area) => (
                   <option key={area.id} value={area.id}>
-                    {area.name} &middot; {formatCurrency(area.deliveryFee)}
+                    {area.name}
                   </option>
                 ))}
               </select>

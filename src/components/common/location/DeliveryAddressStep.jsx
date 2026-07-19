@@ -131,7 +131,7 @@ export default function DeliveryAddressStep({ onConfirm, initialAreaId }) {
           <option value="">Select your area</option>
           {areas.map((area) => (
             <option key={area.id} value={area.id}>
-              {area.name} &middot; {formatCurrency(area.deliveryFee)}
+              {area.name}
             </option>
           ))}
         </select>

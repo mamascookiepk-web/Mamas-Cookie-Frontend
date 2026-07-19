@@ -8,7 +8,7 @@ import LoginEmailStep from './LoginEmailStep';
 import LoginOtpStep from './LoginOtpStep';
 import LoginRegisterStep from './LoginRegisterStep';
 
-const initialRegisterForm = { name: '', email: '', gender: '', dob: '', phone: '' };
+const initialRegisterForm = { name: '', email: '', phone: '' };
 
 export default function LoginModal({ onClose }) {
   const dispatch = useDispatch();
@@ -48,7 +48,6 @@ export default function LoginModal({ onClose }) {
         email: registerForm.email,
         name: registerForm.name,
         phone: registerForm.phone,
-        gender: registerForm.gender,
       });
       setStep('otp');
     } catch (err) {
@@ -63,7 +62,6 @@ export default function LoginModal({ onClose }) {
       email,
       name: registerForm.name,
       phone: registerForm.phone,
-      gender: registerForm.gender,
     }).catch(() => {});
   };
 

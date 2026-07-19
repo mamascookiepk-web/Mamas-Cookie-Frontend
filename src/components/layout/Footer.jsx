@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
+import { CONTACT } from '@/constants/contact';
 
 const USEFUL_LINKS = [
   { to: '/local', label: 'Nationwide Shipping' },
@@ -18,14 +19,14 @@ const POLICY_LINKS = [
 const SOCIAL_LINKS = [
   {
     label: 'Facebook',
-    href: 'https://www.facebook.com/mamascookie',
+    href: CONTACT.facebook,
     path: (
       <path d="M14 9h2V6h-2c-1.657 0-3 1.343-3 3v2H9v3h2v6h3v-6h2.2l.8-3H14V9c0-.276.224-.5.5-.5H14V9z" />
     ),
   },
   {
     label: 'Instagram',
-    href: 'https://www.instagram.com/mamascookie',
+    href: CONTACT.instagram,
     path: (
       <>
         <rect x="4" y="4" width="16" height="16" rx="4" />
@@ -36,7 +37,7 @@ const SOCIAL_LINKS = [
   },
   {
     label: 'TikTok',
-    href: 'https://www.tiktok.com/@mamascookie',
+    href: CONTACT.tiktok,
     path: (
       <path d="M14.5 4h2.2c.2 1.6 1.3 2.9 2.9 3.3v2.3c-1.1 0-2.1-.3-3-.9v5.4c0 2.7-2.2 4.9-4.9 4.9S6.8 16.8 6.8 14.1c0-2.6 2-4.7 4.6-4.9v2.3c-1.3.2-2.3 1.3-2.3 2.6 0 1.5 1.2 2.6 2.6 2.6s2.6-1.2 2.6-2.6V4z" />
     ),
@@ -126,16 +127,19 @@ export default function Footer() {
 
           <div>
             <p className="text-sm font-bold text-white">Location and Hours</p>
-            <p className="mt-5 text-sm text-primary-100">
-              Office no. 37, 2nd Floor, Arena Mall, Gulberg Greens, Islamabad.
-            </p>
-            <p className="mt-5 text-sm font-bold text-white">Monday &ndash; Sunday:</p>
-            <p className="text-sm text-primary-100">12:00 PM &ndash; 11:30 PM</p>
+            <p className="mt-5 text-sm text-primary-100">{CONTACT.address}</p>
+            <p className="mt-5 text-sm font-bold text-white">{CONTACT.businessHours}</p>
             <a
-              href="mailto:info@mamascookie.com"
+              href={`mailto:${CONTACT.email}`}
               className="mt-5 inline-block text-sm text-primary-100 underline transition-colors hover:text-white"
             >
-              info@mamascookie.com
+              {CONTACT.email}
+            </a>
+            <a
+              href={`tel:${CONTACT.phone}`}
+              className="mt-1 block text-sm text-primary-100 underline transition-colors hover:text-white"
+            >
+              {CONTACT.phone}
             </a>
           </div>
         </div>

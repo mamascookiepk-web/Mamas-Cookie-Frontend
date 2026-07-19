@@ -1,6 +1,6 @@
 import { Camera } from 'lucide-react';
+import { CONTACT } from '@/constants/contact';
 
-const INSTAGRAM_URL = 'https://www.instagram.com/mamascookie';
 const IMAGES = Array.from({ length: 12 }, (_, i) => `/images/instagram/img-${i + 1}.jpg`);
 
 export default function InstagramFeed() {
@@ -14,7 +14,7 @@ export default function InstagramFeed() {
         {IMAGES.map((src, index) => (
           <a
             key={src}
-            href={INSTAGRAM_URL}
+            href={CONTACT.instagram}
             target="_blank"
             rel="noopener noreferrer"
             className="group relative aspect-square overflow-hidden bg-gray-100"
