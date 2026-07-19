@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useCart } from '@/hooks/useCart';
 import { useLocalOrder } from '@/hooks/useLocalOrder';
 import { useOrders } from '@/hooks/useOrders';
 import { useAuth } from '@/hooks/useAuth';
+import { useGst } from '@/hooks/useGst';
 import { formatCurrency } from '@/utils/format';
 import LocationGateModal from '@/components/common/location/LocationGateModal';
 import LoginModal from '@/components/common/location/LoginModal';
@@ -17,13 +18,21 @@ export default function Checkout() {
   const { orderType, area, address, pickupCenter, isSelected, clearLocalOrder } = useLocalOrder();
   const { placeOrder, placeStatus, placeError } = useOrders();
   const { isAuthenticated } = useAuth();
+  const { active: gstRate, fetchActiveGstRate } = useGst();
   const navigate = useNavigate();
   const [loginOpen, setLoginOpen] = useState(false);
+
+  useEffect(() => {
+    fetchActiveGstRate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
   const meetsMinimum = totalQuantity >= MIN_ITEMS;
   const deliveryFee = orderType === 'DELIVERY' && area ? Number(area.deliveryFee) || 0 : 0;
-  const grandTotal = total + deliveryFee;
+  const gstPercentage = Number(gstRate?.percentage) || 0;
+  const gstAmount = total * (gstPercentage / 100);
+  const grandTotal = total + deliveryFee + gstAmount;
 
   if (items.length === 0) {
     return (
@@ -148,6 +157,12 @@ export default function Checkout() {
           <span>Delivery Fee</span>
           <span>{formatCurrency(deliveryFee)}</span>
         </div>
+        {gstPercentage > 0 && (
+          <div className="mt-1 flex justify-between text-sm text-ink-600">
+            <span>GST ({gstPercentage}%)</span>
+            <span>{formatCurrency(gstAmount)}</span>
+          </div>
+        )}
         <div className="mt-3 flex justify-between border-t border-gray-200 pt-3 font-bold text-ink-900">
           <span>Total</span>
           <span>{formatCurrency(grandTotal)}</span>

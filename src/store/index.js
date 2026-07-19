@@ -15,6 +15,7 @@ import monthlyDropReducer from './monthlyDropSlice';
 import weeklyDropReducer from './weeklyDropSlice';
 import testimonialsReducer from './testimonialsSlice';
 import dashboardReducer from './dashboardSlice';
+import gstReducer from './gstSlice';
 
 export const store = configureStore({
   reducer: {
@@ -34,5 +35,6 @@ export const store = configureStore({
     weeklyDrop: weeklyDropReducer,
     testimonials: testimonialsReducer,
     dashboard: dashboardReducer,
+    gst: gstReducer,
   },
 });

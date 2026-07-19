@@ -21,6 +21,7 @@ import AdminTestimonials from '@/pages/Admin/AdminTestimonials';
 import AdminCatering from '@/pages/Admin/AdminCatering';
 import AdminMonthlyDrop from '@/pages/Admin/AdminMonthlyDrop';
 import AdminWeeklyDrop from '@/pages/Admin/AdminWeeklyDrop';
+import AdminGst from '@/pages/Admin/AdminGst';
 import NotFound from '@/pages/NotFound/NotFound';
 
 const router = createBrowserRouter([
@@ -55,6 +56,7 @@ const router = createBrowserRouter([
       { path: 'catering', element: <AdminCatering /> },
       { path: 'monthly-drop', element: <AdminMonthlyDrop /> },
       { path: 'weekly-drop', element: <AdminWeeklyDrop /> },
+      { path: 'gst', element: <AdminGst /> },
     ],
   },
 ]);

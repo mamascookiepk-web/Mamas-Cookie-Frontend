@@ -137,6 +137,23 @@ export default function TrackOrder() {
                         ))}
                       </div>
 
+                      <div className="mt-3 space-y-1 text-sm">
+                        <div className="flex justify-between text-ink-600">
+                          <span>Delivery Fee</span>
+                          <span>{formatCurrency(detail.deliveryFee)}</span>
+                        </div>
+                        {Number(detail.gstAmount) > 0 && (
+                          <div className="flex justify-between text-ink-600">
+                            <span>GST ({detail.gstPercentage}%)</span>
+                            <span>{formatCurrency(detail.gstAmount)}</span>
+                          </div>
+                        )}
+                        <div className="flex justify-between font-bold text-ink-900">
+                          <span>Total</span>
+                          <span>{formatCurrency(detail.totalAmount)}</span>
+                        </div>
+                      </div>
+
                       {detail.history?.length > 0 && (
                         <div className="mt-4">
                           <p className="mb-2 text-sm font-bold text-ink-900">Status History</p>

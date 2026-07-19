@@ -86,4 +86,11 @@ export const API_ROUTES = {
   DASHBOARD: {
     ADMIN_STATS: '/admin/dashboard/stats',
   },
+  GST: {
+    ACTIVE: '/gst/active',
+    ADMIN_LIST: '/admin/gst',
+    ADMIN_CREATE: '/admin/gst',
+    ADMIN_UPDATE: (id) => `/admin/gst/${id}`,
+    ADMIN_DELETE: (id) => `/admin/gst/${id}`,
+  },
 };

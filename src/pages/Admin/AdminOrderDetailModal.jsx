@@ -102,6 +102,12 @@ export default function AdminOrderDetailModal({ order, onClose, onChangeStatus, 
               <span>Delivery Fee</span>
               <span>{formatCurrency(order.deliveryFee)}</span>
             </div>
+            {Number(order.gstAmount) > 0 && (
+              <div className="flex justify-between text-ink-600">
+                <span>GST ({order.gstPercentage}%)</span>
+                <span>{formatCurrency(order.gstAmount)}</span>
+              </div>
+            )}
             <div className="flex justify-between font-bold text-ink-900">
               <span>Total</span>
               <span>{formatCurrency(order.totalAmount)}</span>

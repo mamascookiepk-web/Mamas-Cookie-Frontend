@@ -9,6 +9,7 @@ import {
   PartyPopper,
   Image,
   Images,
+  Percent,
 } from 'lucide-react';
 
 const NAV_ITEMS = [
@@ -21,6 +22,7 @@ const NAV_ITEMS = [
   { to: '/admin/catering', label: 'Events & Catering', icon: PartyPopper, dotKey: 'catering' },
   { to: '/admin/monthly-drop', label: 'Monthly Drop', icon: Image },
   { to: '/admin/weekly-drop', label: 'Weekly Drop', icon: Images },
+  { to: '/admin/gst', label: 'GST', icon: Percent },
 ];
 
 export default function AdminSidebar({ open, onNavigate, hasNew = {} }) {

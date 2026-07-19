@@ -3,13 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Cookie as CookieIcon, Minus, Plus, Trash2, X } from 'lucide-react';
 import { useCart } from '@/hooks/useCart';
 import { useLocalOrder } from '@/hooks/useLocalOrder';
+import { useGst } from '@/hooks/useGst';
 import { getProducts } from '@/services/productService';
 import { formatCurrency } from '@/utils/format';
 import ConfirmDialog from './ConfirmDialog';
 
-// No tax/promo backend config exists yet — this rate is a placeholder to mirror
-// the reference design's order summary; swap for a real value once one exists.
-const TAX_RATE = 0.18;
 const CARD_WIDTH = 160;
 const CARD_GAP = 12;
 
@@ -17,6 +15,7 @@ export default function CartDrawer() {
   const { items, total, isOpen, closeCart, updateQuantity, removeItem, addItem, clearCart } =
     useCart();
   const { orderType, area } = useLocalOrder();
+  const { active: gstRate, fetchActiveGstRate } = useGst();
   const navigate = useNavigate();
   const [popularItems, setPopularItems] = useState([]);
   const [confirmingClear, setConfirmingClear] = useState(false);
@@ -27,12 +26,15 @@ export default function CartDrawer() {
     getProducts()
       .then((data) => setPopularItems(data.content ?? data))
       .catch(() => setPopularItems([]));
+    fetchActiveGstRate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   if (!isOpen) return null;
 
+  const gstPercentage = Number(gstRate?.percentage) || 0;
   const deliveryFee = orderType === 'DELIVERY' && area ? Number(area.deliveryFee) || 0 : 0;
-  const tax = total * TAX_RATE;
+  const tax = total * (gstPercentage / 100);
   const grandTotal = total + deliveryFee + tax;
 
   const suggestions = popularItems.filter(
@@ -201,8 +203,14 @@ export default function CartDrawer() {
               <span>Delivery Charges</span>
               <span>{formatCurrency(deliveryFee)}</span>
             </div>
+            {gstPercentage > 0 && (
+              <div className="mt-1 flex justify-between text-sm text-ink-600">
+                <span>GST ({gstPercentage}%)</span>
+                <span>{formatCurrency(tax)}</span>
+              </div>
+            )}
             <div className="mt-3 flex justify-between border-t border-gray-200 pt-3 font-bold text-ink-900">
-              <span>Grand Total (incl. 18% tax)</span>
+              <span>Grand Total</span>
               <span>{formatCurrency(grandTotal)}</span>
             </div>
 
