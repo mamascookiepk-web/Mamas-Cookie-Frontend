@@ -1,22 +1,11 @@
-import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useState } from 'react';
 import { ArrowLeft, Cookie } from 'lucide-react';
-import { getPickupCenters } from '@/services/locationService';
-import { checkEmail, requestOtp, verifyOtp } from '@/services/authService';
-import { setCredentials } from '@/store/authSlice';
+import { getPickupCenters, getAreas } from '@/services/locationService';
 import { useLocalOrder } from '@/hooks/useLocalOrder';
-import { useAuth } from '@/hooks/useAuth';
-import LoginEmailStep from './LoginEmailStep';
-import LoginOtpStep from './LoginOtpStep';
-import LoginRegisterStep from './LoginRegisterStep';
-import DeliveryAddressStep from './DeliveryAddressStep';
-
-const initialRegisterForm = { name: '', email: '', gender: '', dob: '', phone: '' };
+import { formatCurrency } from '@/utils/format';
 
 export default function LocationGateModal() {
-  const dispatch = useDispatch();
-  const { setDelivery, setPickup } = useLocalOrder();
-  const { isAuthenticated } = useAuth();
+  const { setDeliveryArea, setPickup } = useLocalOrder();
 
   const [screen, setScreen] = useState('type');
   const [orderType, setOrderType] = useState('DELIVERY');
@@ -25,11 +14,9 @@ export default function LocationGateModal() {
   const [selectedPickupId, setSelectedPickupId] = useState('');
   const [loadingPickup, setLoadingPickup] = useState(false);
 
-  const [email, setEmail] = useState('');
-  const [otp, setOtp] = useState('');
-  const [registerForm, setRegisterForm] = useState(initialRegisterForm);
-  const [authLoading, setAuthLoading] = useState(false);
-  const [authError, setAuthError] = useState('');
+  const [areas, setAreas] = useState([]);
+  const [selectedAreaId, setSelectedAreaId] = useState('');
+  const [loadingAreas, setLoadingAreas] = useState(false);
 
   const handleContinue = () => {
     if (orderType === 'PICKUP') {
@@ -40,7 +27,12 @@ export default function LocationGateModal() {
         .finally(() => setLoadingPickup(false));
       setScreen('pickup');
     } else {
-      setScreen(isAuthenticated ? 'delivery-address' : 'login-email');
+      setLoadingAreas(true);
+      getAreas()
+        .then((data) => setAreas(data.content ?? data))
+        .catch(() => setAreas([]))
+        .finally(() => setLoadingAreas(false));
+      setScreen('delivery-area');
     }
   };
 
@@ -49,80 +41,12 @@ export default function LocationGateModal() {
     if (selected) setPickup(selected);
   };
 
-  const handleEmailSubmit = async (e) => {
-    e.preventDefault();
-    setAuthError('');
-    setAuthLoading(true);
-    try {
-      const { registered } = await checkEmail(email);
-      if (registered) {
-        await requestOtp({ email });
-        setScreen('login-otp');
-      } else {
-        setRegisterForm((prev) => ({ ...prev, email }));
-        setScreen('login-register');
-      }
-    } catch (err) {
-      setAuthError(err.message);
-    } finally {
-      setAuthLoading(false);
-    }
+  const handleAreaSubmit = () => {
+    const selected = areas.find((a) => String(a.id) === selectedAreaId);
+    if (selected) setDeliveryArea(selected);
   };
 
-  const handleRegisterSubmit = async (e) => {
-    e.preventDefault();
-    setAuthError('');
-    setAuthLoading(true);
-    try {
-      await requestOtp({
-        email: registerForm.email,
-        name: registerForm.name,
-        phone: registerForm.phone,
-        gender: registerForm.gender,
-      });
-      setScreen('login-otp');
-    } catch (err) {
-      setAuthError(err.message);
-    } finally {
-      setAuthLoading(false);
-    }
-  };
-
-  const handleResendOtp = () => {
-    requestOtp({
-      email,
-      name: registerForm.name,
-      phone: registerForm.phone,
-      gender: registerForm.gender,
-    }).catch(() => {});
-  };
-
-  const handleOtpSubmit = async (e) => {
-    e.preventDefault();
-    setAuthError('');
-    setAuthLoading(true);
-    try {
-      const data = await verifyOtp({ email: email || registerForm.email, otp });
-      dispatch(setCredentials(data));
-      setScreen('delivery-address');
-    } catch (err) {
-      setAuthError(err.message);
-    } finally {
-      setAuthLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (isAuthenticated && screen.startsWith('login')) {
-      setScreen('delivery-address');
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated]);
-
-  const backToType = () => {
-    setScreen('type');
-    setAuthError('');
-  };
+  const backToType = () => setScreen('type');
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink-900/50 p-4 backdrop-blur-sm">
@@ -218,53 +142,37 @@ export default function LocationGateModal() {
           </>
         )}
 
-        {screen === 'login-email' && (
-          <>
-            <p className="mt-5 text-center text-sm font-bold text-ink-900">
-              Log in to select a delivery address
-            </p>
-            <LoginEmailStep
-              email={email}
-              setEmail={setEmail}
-              onSubmit={handleEmailSubmit}
-              loading={authLoading}
-              error={authError}
-            />
-          </>
-        )}
-
-        {screen === 'login-register' && (
-          <LoginRegisterStep
-            form={registerForm}
-            setForm={setRegisterForm}
-            onSubmit={handleRegisterSubmit}
-            onBack={() => {
-              setAuthError('');
-              setScreen('login-email');
-            }}
-            loading={authLoading}
-            error={authError}
-          />
-        )}
-
-        {screen === 'login-otp' && (
-          <LoginOtpStep
-            email={email || registerForm.email}
-            otp={otp}
-            setOtp={setOtp}
-            onSubmit={handleOtpSubmit}
-            onResend={handleResendOtp}
-            loading={authLoading}
-            error={authError}
-          />
-        )}
-
-        {screen === 'delivery-address' && (
+        {screen === 'delivery-area' && (
           <>
             <h2 className="mt-5 text-center text-xl font-extrabold text-ink-900">
-              Please select your location
+              Which area are you in?
             </h2>
-            <DeliveryAddressStep onConfirm={(area, address) => setDelivery(area, address)} />
+
+            <div className="mt-5">
+              <label className="mb-2 block text-sm font-bold text-ink-900">Select Area</label>
+              <select
+                value={selectedAreaId}
+                onChange={(e) => setSelectedAreaId(e.target.value)}
+                disabled={loadingAreas}
+                className="w-full rounded-lg border border-gray-200 px-4 py-3 text-sm text-ink-900 focus:border-primary-500 focus:outline-none disabled:opacity-50"
+              >
+                <option value="">{loadingAreas ? 'Loading...' : 'Select your area'}</option>
+                {areas.map((area) => (
+                  <option key={area.id} value={area.id}>
+                    {area.name} &middot; {formatCurrency(area.deliveryFee)}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <button
+              type="button"
+              onClick={handleAreaSubmit}
+              disabled={!selectedAreaId}
+              className="mt-6 w-full rounded-lg bg-primary-500 py-3 text-sm font-bold text-white transition-colors hover:bg-primary-600 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-ink-400"
+            >
+              Select
+            </button>
           </>
         )}
       </div>

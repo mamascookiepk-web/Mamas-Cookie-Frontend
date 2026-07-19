@@ -4,7 +4,7 @@ import { useAddresses } from '@/hooks/useAddresses';
 import { getAreas } from '@/services/locationService';
 import { formatCurrency } from '@/utils/format';
 
-export default function DeliveryAddressStep({ onConfirm }) {
+export default function DeliveryAddressStep({ onConfirm, initialAreaId }) {
   const {
     items: addresses,
     status,
@@ -17,7 +17,11 @@ export default function DeliveryAddressStep({ onConfirm }) {
   const [mode, setMode] = useState('list');
   const [selectedAddressId, setSelectedAddressId] = useState('');
   const [areas, setAreas] = useState([]);
-  const [form, setForm] = useState({ areaId: '', addressLine: '', landmark: '' });
+  const [form, setForm] = useState({
+    areaId: initialAreaId ? String(initialAreaId) : '',
+    addressLine: '',
+    landmark: '',
+  });
 
   useEffect(() => {
     fetchAddresses();

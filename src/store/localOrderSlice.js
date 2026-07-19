@@ -12,12 +12,12 @@ const localOrderSlice = createSlice({
   name: 'localOrder',
   initialState,
   reducers: {
-    setDelivery: (state, action) => {
-      const { area, address } = action.payload;
+    // Chosen at the /local gate - just the delivery area, no address yet.
+    setDeliveryArea: (state, action) => {
       state.orderType = 'DELIVERY';
-      state.area = area;
-      state.address = address;
+      state.area = action.payload;
       state.pickupCenter = null;
+      state.address = null;
       persist(state);
     },
     setPickup: (state, action) => {
@@ -25,6 +25,14 @@ const localOrderSlice = createSlice({
       state.pickupCenter = action.payload;
       state.area = null;
       state.address = null;
+      persist(state);
+    },
+    // Resolved later, at checkout time, once the customer is logged in.
+    setDeliveryAddress: (state, action) => {
+      state.address = action.payload;
+      if (action.payload?.area) {
+        state.area = action.payload.area;
+      }
       persist(state);
     },
     clearLocalOrder: (state) => {
@@ -37,5 +45,6 @@ const localOrderSlice = createSlice({
   },
 });
 
-export const { setDelivery, setPickup, clearLocalOrder } = localOrderSlice.actions;
+export const { setDeliveryArea, setPickup, setDeliveryAddress, clearLocalOrder } =
+  localOrderSlice.actions;
 export default localOrderSlice.reducer;

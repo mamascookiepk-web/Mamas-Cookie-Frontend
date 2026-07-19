@@ -17,15 +17,15 @@ import LoginModal from '@/components/common/location/LoginModal';
 
 export default function LocalNavbar() {
   const navigate = useNavigate();
-  const { orderType, area, address, pickupCenter, clearLocalOrder } = useLocalOrder();
+  const { orderType, area, pickupCenter, clearLocalOrder } = useLocalOrder();
   const { isAuthenticated, user, logout } = useAuth();
   const { count, openCart } = useCart();
   const [loginOpen, setLoginOpen] = useState(false);
   const [accountMenuOpen, setAccountMenuOpen] = useState(false);
 
   const label = orderType === 'PICKUP' ? 'Pickup from' : 'Delivery to';
-  const locationName = orderType === 'PICKUP' ? pickupCenter?.name : address?.addressLine;
-  const subLabel = orderType === 'PICKUP' ? pickupCenter?.address : area?.name;
+  const locationName = orderType === 'PICKUP' ? pickupCenter?.name : area?.name;
+  const subLabel = orderType === 'PICKUP' ? pickupCenter?.address : null;
 
   const handleLogout = () => {
     setAccountMenuOpen(false);

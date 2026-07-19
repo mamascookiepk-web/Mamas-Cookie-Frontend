@@ -8,6 +8,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { formatCurrency } from '@/utils/format';
 import LocationGateModal from '@/components/common/location/LocationGateModal';
 import LoginModal from '@/components/common/location/LoginModal';
+import CheckoutAddressGate from './CheckoutAddressGate';
 
 const MIN_ITEMS = 3;
 
@@ -60,6 +61,10 @@ export default function Checkout() {
 
   if (!isSelected) {
     return <LocationGateModal />;
+  }
+
+  if (orderType === 'DELIVERY' && (!isAuthenticated || !address)) {
+    return <CheckoutAddressGate />;
   }
 
   const handlePlaceOrder = async () => {

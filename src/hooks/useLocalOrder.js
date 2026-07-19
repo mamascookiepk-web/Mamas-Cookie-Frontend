@@ -1,5 +1,10 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { setDelivery, setPickup, clearLocalOrder } from '@/store/localOrderSlice';
+import {
+  setDeliveryArea,
+  setPickup,
+  setDeliveryAddress,
+  clearLocalOrder,
+} from '@/store/localOrderSlice';
 
 export const useLocalOrder = () => {
   const dispatch = useDispatch();
@@ -11,8 +16,9 @@ export const useLocalOrder = () => {
     address,
     pickupCenter,
     isSelected: Boolean(orderType),
-    setDelivery: (area, address) => dispatch(setDelivery({ area, address })),
+    setDeliveryArea: (area) => dispatch(setDeliveryArea(area)),
     setPickup: (pickupCenterObj) => dispatch(setPickup(pickupCenterObj)),
+    setDeliveryAddress: (address) => dispatch(setDeliveryAddress(address)),
     clearLocalOrder: () => dispatch(clearLocalOrder()),
   };
 };
