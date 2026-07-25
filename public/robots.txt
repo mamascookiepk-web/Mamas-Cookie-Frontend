@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /admin/login
+Disallow: /login
+Disallow: /checkout
+Disallow: /profile
+Disallow: /track-order
+Disallow: /wishlist
+
+Sitemap: https://mamascookie.pk/sitemap.xml

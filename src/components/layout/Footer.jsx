@@ -4,7 +4,6 @@ import { ArrowRight } from 'lucide-react';
 import { CONTACT } from '@/constants/contact';
 
 const USEFUL_LINKS = [
-  { to: '/local', label: 'Nationwide Shipping' },
   { to: '/local', label: 'All Products' },
   { to: '/our-story', label: 'Our Story' },
   { to: '/contact', label: 'Contact' },
