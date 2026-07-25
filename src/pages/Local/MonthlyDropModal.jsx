@@ -12,7 +12,7 @@ export default function MonthlyDropModal({ onClose }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink-900/60 p-4 backdrop-blur-sm">
-      <div className="relative w-full max-w-2xl overflow-hidden rounded-[2rem] bg-white shadow-2xl sm:max-w-3xl lg:max-w-4xl">
+      <div className="relative w-full max-w-md overflow-hidden rounded-[2rem] bg-white shadow-2xl sm:max-w-lg lg:max-w-xl">
         <button
           type="button"
           aria-label="Close"
