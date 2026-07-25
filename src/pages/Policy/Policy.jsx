@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Truck, ShieldCheck, RefreshCw, FileText } from 'lucide-react';
 import { CONTACT } from '@/constants/contact';
+import { usePageMeta } from '@/hooks/usePageMeta';
 
 const SECTIONS = [
   {
@@ -51,6 +52,11 @@ const SECTIONS = [
 ];
 
 export default function Policy() {
+  usePageMeta(
+    'Shipping, Privacy & Refund Policy',
+    'Read Mama’s Cookie’s shipping, privacy, refund, and terms of service policies.'
+  );
+
   const { hash } = useLocation();
 
   useEffect(() => {

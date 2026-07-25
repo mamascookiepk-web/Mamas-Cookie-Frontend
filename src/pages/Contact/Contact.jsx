@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { Mail, MapPin, Phone, Clock, Send } from 'lucide-react';
 import { CONTACT } from '@/constants/contact';
 import { useContact } from '@/hooks/useContact';
+import { usePageMeta } from '@/hooks/usePageMeta';
 
 const inputClass =
   'w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-ink-900 placeholder:text-ink-300 focus:border-primary-500 focus:outline-none';
@@ -33,6 +34,11 @@ const CONTACT_CARDS = [
 ];
 
 export default function Contact() {
+  usePageMeta(
+    'Contact Us',
+    'Get in touch with Mama’s Cookie for orders, enquiries, or feedback. We’re based in DHA Phase 2, Islamabad.'
+  );
+
   const { state } = useLocation();
   const [form, setForm] = useState({
     name: '',
