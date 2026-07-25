@@ -66,7 +66,7 @@ export default function OurStory() {
             <div className="relative aspect-[9/16] overflow-hidden rounded-[2rem] border border-white/20 bg-white/5 shadow-2xl transition-transform duration-300 group-hover:scale-[1.02]">
               <video
                 ref={videoRef}
-                src="/videos/story/story-hero.mp4"
+                src="/videos/story/story-hero.mov"
                 loop
                 muted
                 playsInline

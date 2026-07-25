@@ -1,29 +1,28 @@
-import { useEffect, useRef, useState } from 'react';
-import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { Search, User, ShoppingBag, Heart, Menu, X } from 'lucide-react';
-import { useCart } from '@/hooks/useCart';
-import { useAuth } from '@/hooks/useAuth';
-import { useWishlist } from '@/hooks/useWishlist';
-import LoginModal from '@/components/common/location/LoginModal';
-import BrandLogo from '@/components/common/BrandLogo';
-import AnnouncementBar from './AnnouncementBar';
+import { useEffect, useRef, useState } from "react";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Search, User, ShoppingBag, Heart, Menu, X } from "lucide-react";
+import { useCart } from "@/hooks/useCart";
+import { useAuth } from "@/hooks/useAuth";
+import { useWishlist } from "@/hooks/useWishlist";
+import LoginModal from "@/components/common/location/LoginModal";
+import AnnouncementBar from "./AnnouncementBar";
 
 const NAV_LINKS = [
-  { to: '/', label: 'Home' },
-  { to: '/local', label: 'Local' },
-  { to: '/our-story', label: 'Our Story' },
-  { to: '/gifting', label: 'Corporate Gifting' },
-  { to: '/events-catering', label: 'Events & Catering' },
+  { to: "/", label: "Home" },
+  { to: "/local", label: "Local" },
+  { to: "/our-story", label: "Our Story" },
+  { to: "/gifting", label: "Corporate Gifting" },
+  { to: "/events-catering", label: "Events & Catering" },
 ];
 
 const navLinkClass = ({ isActive }) =>
   `text-sm font-bold uppercase tracking-wide transition-colors ${
-    isActive ? 'text-primary-600' : 'text-ink-900 hover:text-primary-600'
+    isActive ? "text-primary-600" : "text-ink-900 hover:text-primary-600"
   }`;
 
 const mobileNavLinkClass = ({ isActive }) =>
   `rounded-lg px-2 py-2 text-sm font-bold uppercase tracking-wide ${
-    isActive ? 'bg-primary-50 text-primary-600' : 'text-ink-900'
+    isActive ? "bg-primary-50 text-primary-600" : "text-ink-900"
   }`;
 
 function TrackOrderLink({ mobile, onNavigate }) {
@@ -31,12 +30,12 @@ function TrackOrderLink({ mobile, onNavigate }) {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const [loginOpen, setLoginOpen] = useState(false);
-  const isActive = pathname === '/track-order';
+  const isActive = pathname === "/track-order";
 
   useEffect(() => {
     if (loginOpen && isAuthenticated) {
       setLoginOpen(false);
-      navigate('/track-order');
+      navigate("/track-order");
       onNavigate?.();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -44,7 +43,7 @@ function TrackOrderLink({ mobile, onNavigate }) {
 
   const handleClick = () => {
     if (isAuthenticated) {
-      navigate('/track-order');
+      navigate("/track-order");
       onNavigate?.();
     } else {
       setLoginOpen(true);
@@ -83,7 +82,7 @@ function AccountLink() {
 
   const handleClick = () => {
     if (isAuthenticated) {
-      navigate('/profile');
+      navigate("/profile");
     } else {
       setLoginOpen(true);
     }
@@ -113,14 +112,14 @@ function WishlistLink() {
   useEffect(() => {
     if (loginOpen && isAuthenticated) {
       setLoginOpen(false);
-      navigate('/wishlist');
+      navigate("/wishlist");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated, loginOpen]);
 
   const handleClick = () => {
     if (isAuthenticated) {
-      navigate('/wishlist');
+      navigate("/wishlist");
     } else {
       setLoginOpen(true);
     }
@@ -150,7 +149,7 @@ export default function Navbar() {
   const { count, openCart } = useCart();
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const searchInputRef = useRef(null);
   const navigate = useNavigate();
 
@@ -163,9 +162,9 @@ export default function Navbar() {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     const trimmed = query.trim();
-    navigate(trimmed ? `/local?q=${encodeURIComponent(trimmed)}` : '/local');
+    navigate(trimmed ? `/local?q=${encodeURIComponent(trimmed)}` : "/local");
     setSearchOpen(false);
-    setQuery('');
+    setQuery("");
   };
 
   return (
@@ -174,8 +173,12 @@ export default function Navbar() {
 
       <div className="border-b border-gray-200">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
-          <Link to="/" aria-label="Mama's Cookie">
-            <BrandLogo />
+          <Link to="/" className="flex items-center">
+            <img
+              src="/logo/logo1.png"
+              alt="Mama's Cookie"
+              className="h-9 w-auto"
+            />
           </Link>
 
           <nav className="hidden items-center gap-8 lg:flex">
@@ -193,7 +196,7 @@ export default function Navbar() {
               aria-label="Search"
               onClick={() => setSearchOpen((open) => !open)}
               className={`transition-colors hover:text-primary-600 ${
-                searchOpen ? 'text-primary-600' : 'text-ink-900'
+                searchOpen ? "text-primary-600" : "text-ink-900"
               }`}
             >
               {searchOpen ? <X size={20} /> : <Search size={20} />}
@@ -226,7 +229,10 @@ export default function Navbar() {
 
         {searchOpen && (
           <div className="border-t border-gray-200 px-4 py-3 sm:px-6">
-            <form onSubmit={handleSearchSubmit} className="mx-auto flex max-w-2xl items-center gap-2">
+            <form
+              onSubmit={handleSearchSubmit}
+              className="mx-auto flex max-w-2xl items-center gap-2"
+            >
               <Search size={18} className="shrink-0 text-ink-400" />
               <input
                 ref={searchInputRef}
