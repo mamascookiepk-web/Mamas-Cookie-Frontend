@@ -12,7 +12,7 @@ export default function MonthlyDropModal({ onClose }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink-900/60 p-4 backdrop-blur-sm">
-      <div className="relative w-full max-w-3xl overflow-hidden rounded-[2rem] bg-white shadow-2xl">
+      <div className="relative w-full max-w-2xl overflow-hidden rounded-[2rem] bg-white shadow-2xl sm:max-w-3xl lg:max-w-4xl">
         <button
           type="button"
           aria-label="Close"
@@ -22,7 +22,7 @@ export default function MonthlyDropModal({ onClose }) {
           <X size={20} />
         </button>
 
-        <div className="relative flex aspect-[16/10] w-full items-center justify-center overflow-hidden bg-primary-50 sm:aspect-[2/1]">
+        <div className="relative flex aspect-square w-full items-center justify-center overflow-hidden bg-primary-50">
           {status === 'loading' ? (
             <span className="text-sm font-medium text-primary-300">Loading...</span>
           ) : imageUrl ? (

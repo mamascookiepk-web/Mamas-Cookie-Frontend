@@ -51,14 +51,25 @@ export default function LocalHeroCarousel() {
   return (
     <section className="relative h-[320px] overflow-hidden bg-primary-50 sm:h-[420px]">
       {images.map((image, index) => (
-        <img
+        <div
           key={image.id}
-          src={image.url}
-          alt={`Weekly drop ${index + 1}`}
-          className={`absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-500 ${
+          className={`absolute inset-0 transition-opacity duration-500 ${
             index === activeIndex ? 'opacity-100' : 'pointer-events-none opacity-0'
           }`}
-        />
+        >
+          <img
+            src={image.url}
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 h-full w-full scale-110 object-cover object-center blur-2xl"
+          />
+          <div className="absolute inset-0 bg-ink-900/20" />
+          <img
+            src={image.url}
+            alt={`Weekly drop ${index + 1}`}
+            className="relative h-full w-full object-contain object-center"
+          />
+        </div>
       ))}
 
       {images.length > 1 && (
