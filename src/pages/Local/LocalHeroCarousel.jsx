@@ -55,7 +55,7 @@ export default function LocalHeroCarousel() {
           key={image.id}
           src={image.url}
           alt={`Weekly drop ${index + 1}`}
-          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
+          className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-500 ${
             index === activeIndex ? 'opacity-100' : 'pointer-events-none opacity-0'
           }`}
         />
