@@ -8,4 +8,4 @@ Disallow: /profile
 Disallow: /track-order
 Disallow: /wishlist
 
-Sitemap: https://mamascookie.pk/sitemap.xml
+Sitemap: https://www.mamascookie.pk/sitemap.xml
