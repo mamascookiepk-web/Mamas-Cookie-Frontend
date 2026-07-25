@@ -24,3 +24,14 @@ body {
   color: var(--color-choco-600);
   font-family: var(--font-sans);
 }
+
+@font-face {
+  font-family: "Still Valentine";
+  src: url("/fonts/Still_Valentine.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.still-valentine {
+  font-family: "Still Valentine", cursive;
+}

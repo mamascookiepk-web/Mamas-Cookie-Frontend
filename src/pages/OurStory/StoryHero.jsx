@@ -24,7 +24,7 @@ export default function StoryHero() {
             </h1>
 
             <p className="mt-4 max-w-xl text-sm italic text-primary-100 sm:text-base">
-              Not just sugar disguised as a cookie. We&apos;re looking at you, Crumbl.
+              Not just sugar disguised as a cookie.
             </p>
 
             <p className="mt-6 max-w-xl text-sm leading-relaxed text-primary-50 sm:text-base">
