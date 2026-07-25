@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { CONTACT } from '@/constants/contact';
 
@@ -46,9 +47,11 @@ const SOCIAL_LINKS = [
 
 export default function Footer() {
   const [email, setEmail] = useState('');
+  const navigate = useNavigate();
 
   const handleSubscribe = (e) => {
     e.preventDefault();
+    navigate('/contact', { state: { email } });
     setEmail('');
   };
 

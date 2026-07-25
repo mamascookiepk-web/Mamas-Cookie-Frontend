@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Mail, MapPin, Phone, Clock, Send } from 'lucide-react';
 import { CONTACT } from '@/constants/contact';
 import { useContact } from '@/hooks/useContact';
@@ -32,7 +33,13 @@ const CONTACT_CARDS = [
 ];
 
 export default function Contact() {
-  const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
+  const { state } = useLocation();
+  const [form, setForm] = useState({
+    name: '',
+    email: state?.email || '',
+    phone: '',
+    message: '',
+  });
   const { submitStatus, submitError, submitContact, clearSubmitStatus } = useContact();
 
   const handleChange = (field, value) => setForm((prev) => ({ ...prev, [field]: value }));
