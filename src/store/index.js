@@ -11,6 +11,7 @@ import areasReducer from './areasSlice';
 import pickupCentersReducer from './pickupCentersSlice';
 import giftingReducer from './giftingSlice';
 import cateringReducer from './cateringSlice';
+import contactReducer from './contactSlice';
 import monthlyDropReducer from './monthlyDropSlice';
 import weeklyDropReducer from './weeklyDropSlice';
 import testimonialsReducer from './testimonialsSlice';
@@ -31,6 +32,7 @@ export const store = configureStore({
     pickupCenters: pickupCentersReducer,
     gifting: giftingReducer,
     catering: cateringReducer,
+    contact: contactReducer,
     monthlyDrop: monthlyDropReducer,
     weeklyDrop: weeklyDropReducer,
     testimonials: testimonialsReducer,

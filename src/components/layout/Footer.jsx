@@ -10,10 +10,10 @@ const USEFUL_LINKS = [
 ];
 
 const POLICY_LINKS = [
-  { to: '/shipping-policy', label: 'Shipping Policy' },
-  { to: '/privacy-policy', label: 'Privacy Policy' },
-  { to: '/refund-policy', label: 'Refund Policy' },
-  { to: '/terms-of-service', label: 'Terms of Service' },
+  { to: '/policy#shipping', label: 'Shipping Policy' },
+  { to: '/policy#privacy', label: 'Privacy Policy' },
+  { to: '/policy#refund', label: 'Refund Policy' },
+  { to: '/policy#terms', label: 'Terms of Service' },
 ];
 
 const SOCIAL_LINKS = [

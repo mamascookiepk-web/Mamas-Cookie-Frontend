@@ -62,6 +62,9 @@ export const API_ROUTES = {
     ADMIN_DETAIL: (id) => `/admin/catering/${id}`,
     ADMIN_STATUS: (id) => `/admin/catering/${id}/status`,
   },
+  CONTACT: {
+    CREATE: '/contact',
+  },
   WISHLIST: {
     LIST: '/wishlist',
     ADD: (productId) => `/wishlist/${productId}`,
