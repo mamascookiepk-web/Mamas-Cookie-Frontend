@@ -27,11 +27,11 @@ export default function Hero() {
           </Link>
         </div>
 
-        <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-primary-50 sm:aspect-[16/11] lg:aspect-[5/4]">
+        <div className="aspect-[4/5] overflow-hidden rounded-2xl bg-primary-50 sm:aspect-[16/11] lg:aspect-[5/4]">
           <img
             src="/images/home-hero.jpg"
             alt="Mama's Cookie fresh baked treats"
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover object-bottom"
           />
         </div>
       </div>

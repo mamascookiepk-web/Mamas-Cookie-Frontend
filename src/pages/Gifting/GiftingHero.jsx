@@ -61,13 +61,13 @@ export default function GiftingHero() {
   return (
     <section id="gifting-form" className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:py-16">
       <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:gap-16">
-        <div className="aspect-[4/3] overflow-hidden rounded-2xl sm:aspect-[16/11] lg:aspect-[5/4]">
-          <img
-            src="/images/corporate-gifting-hero.jpg"
-            alt="Mama's Cookie corporate gifting boxes"
-            className="h-full w-full object-cover"
-          />
-        </div>
+        <div className="aspect-[3/4] overflow-hidden rounded-2xl bg-primary-50 sm:aspect-[4/5] lg:aspect-[3/4]">
+  <img
+    src="/images/home-hero.jpg"
+    alt="Mama's Cookie fresh baked treats"
+    className="h-full w-full object-cover"
+  />
+</div>
 
         <div>
           <span className="text-xs font-bold uppercase tracking-widest text-primary-600">

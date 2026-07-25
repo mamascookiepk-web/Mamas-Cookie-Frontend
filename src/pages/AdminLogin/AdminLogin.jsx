@@ -1,20 +1,25 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { Lock } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { loginAdmin, loginStatus, loginError } = useAuth();
+  const { isAuthenticated, user, loginAdmin, loginStatus, loginError } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const loading = loginStatus === 'loading';
+
+  if (isAuthenticated && user?.role === 'ADMIN') {
+    return <Navigate to={location.state?.from?.pathname || '/admin'} replace />;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const result = await loginAdmin({ email, password });
     if (result.meta.requestStatus === 'fulfilled') {
-      navigate('/admin');
+      navigate(location.state?.from?.pathname || '/admin', { replace: true });
     }
   };
 

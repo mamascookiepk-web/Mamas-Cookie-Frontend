@@ -13,6 +13,7 @@ import Wishlist from '@/pages/Wishlist/Wishlist';
 import Contact from '@/pages/Contact/Contact';
 import Policy from '@/pages/Policy/Policy';
 import AdminLogin from '@/pages/AdminLogin/AdminLogin';
+import AdminRoute from '@/components/common/AdminRoute';
 import AdminLayout from '@/pages/Admin/AdminLayout';
 import AdminDashboard from '@/pages/Admin/AdminDashboard';
 import AdminProducts from '@/pages/Admin/AdminProducts';
@@ -49,18 +50,23 @@ const router = createBrowserRouter([
   { path: '/admin/login', element: <AdminLogin /> },
   {
     path: '/admin',
-    element: <AdminLayout />,
+    element: <AdminRoute />,
     children: [
-      { index: true, element: <AdminDashboard /> },
-      { path: 'products', element: <AdminProducts /> },
-      { path: 'locations', element: <AdminLocations /> },
-      { path: 'orders', element: <AdminOrders /> },
-      { path: 'gifting', element: <AdminGifting /> },
-      { path: 'gifting-testimonials', element: <AdminTestimonials /> },
-      { path: 'catering', element: <AdminCatering /> },
-      { path: 'monthly-drop', element: <AdminMonthlyDrop /> },
-      { path: 'weekly-drop', element: <AdminWeeklyDrop /> },
-      { path: 'gst', element: <AdminGst /> },
+      {
+        element: <AdminLayout />,
+        children: [
+          { index: true, element: <AdminDashboard /> },
+          { path: 'products', element: <AdminProducts /> },
+          { path: 'locations', element: <AdminLocations /> },
+          { path: 'orders', element: <AdminOrders /> },
+          { path: 'gifting', element: <AdminGifting /> },
+          { path: 'gifting-testimonials', element: <AdminTestimonials /> },
+          { path: 'catering', element: <AdminCatering /> },
+          { path: 'monthly-drop', element: <AdminMonthlyDrop /> },
+          { path: 'weekly-drop', element: <AdminWeeklyDrop /> },
+          { path: 'gst', element: <AdminGst /> },
+        ],
+      },
     ],
   },
 ]);
