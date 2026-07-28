@@ -63,7 +63,7 @@ export default function GiftingHero() {
       <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:gap-16">
         <div className="aspect-[3/4] overflow-hidden rounded-2xl bg-primary-50 sm:aspect-[4/5] lg:aspect-[3/4]">
   <img
-    src="/images/home-hero.jpg"
+    src="/images/corporate-gifting-hero.jpg"
     alt="Mama's Cookie fresh baked treats"
     className="h-full w-full object-cover"
   />
