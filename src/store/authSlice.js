@@ -1,12 +1,20 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { adminLogin, getMe, updateMe } from '@/services/authService';
+import { isTokenExpired } from '@/utils/jwt';
 
 export const loginAdmin = createAsyncThunk('auth/loginAdmin', adminLogin);
 export const fetchProfile = createAsyncThunk('auth/fetchProfile', getMe);
 export const updateProfile = createAsyncThunk('auth/updateProfile', updateMe);
 
-const storedToken = localStorage.getItem('mc_token');
-const storedUser = localStorage.getItem('mc_user');
+const rawToken = localStorage.getItem('mc_token');
+// If the stored token is missing or already expired, start logged out and
+// clear the stale token/user so the navbar never shows a phantom session.
+const storedToken = rawToken && !isTokenExpired(rawToken) ? rawToken : null;
+if (!storedToken) {
+  localStorage.removeItem('mc_token');
+  localStorage.removeItem('mc_user');
+}
+const storedUser = storedToken ? localStorage.getItem('mc_user') : null;
 
 const initialState = {
   token: storedToken || null,
