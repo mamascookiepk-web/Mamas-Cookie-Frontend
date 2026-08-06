@@ -10,6 +10,7 @@ const MILESTONES = [
   { label: 'January 2025', note: 'First production kitchen' },
   { label: 'First Stall', note: 'Universities & events' },
   { label: 'Twin Cities', note: 'A growing community' },
+  { label: 'Movable Outlet', note: 'Fresh cookies, anywhere' },
   { label: 'The World', note: 'The dream ahead' },
 ];
 
